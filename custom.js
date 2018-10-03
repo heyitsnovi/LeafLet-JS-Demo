@@ -1,13 +1,5 @@
 var mymap = L.map('mapid',{
 
-	keyboard: false,
-    dragging: false,
-    zoomControl: false,
-    boxZoom: false,
-    doubleClickZoom: false,
-    scrollWheelZoom: false,
-    tap: false,
-    touchZoom: false
 	}).setView([8.754795, 123.75], 2);
 
 	var tileLayerID = 'mapbox.run-bike-hike';
@@ -21,7 +13,7 @@ var mymap = L.map('mapid',{
  
 mymap.on('mousemove', Onmousemove);
 mymap.on('click',Onmouseclick);
- 
+
 	//array from matches array to example : manila -> tokyo , australia->new zealand and so on...
 var popup = L.popup();
 
@@ -85,15 +77,23 @@ for(var i=0; i<from.length;i++){
 	}
 }
 
+
+var searchbox = new L.Control.Search({
+		url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
+		jsonpParam: 'json_callback',
+		propertyName: 'display_name',
+		propertyLoc: ['lat','lon'],
+		marker: L.circleMarker([0,0],{radius:30}),
+		autoCollapse: true,
+		autoType: false,
+		minLength: 2,
+	});
+
+console.log(searchbox);
+
+mymap.addControl(searchbox);
+
  
-
-
-
-
-
-
-
-
 
 function Onmouseclick(e){
 	document.getElementById('log').innerHTML = 'Latitude: '+e.latlng.lat+'<br> Longitude: '+e.latlng.lng
@@ -115,32 +115,30 @@ function getRandomColor() {
 }
 
 
+
+
 function detectMyLocation(){
 
+	var greenIcon = L.icon({
+	    iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Breathe-face-smile.svg/220px-Breathe-face-smile.svg.png',
+	    shadowUrl: 'leaf-shadow.png',
+
+	    iconSize:     [38, 95], // size of the icon
+	    shadowSize:   [50, 64], // size of the shadow
+	    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+	    shadowAnchor: [4, 62],  // the same for the shadow
+	    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+
+	
+	navigator.geolocation.getCurrentPosition(function(location) {
+
+	  console.log(location.coords.latitude);
+	  console.log(location.coords.longitude);
+	  console.log(location.coords.accuracy);
 
 
-var greenIcon = L.icon({
-    iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Breathe-face-smile.svg/220px-Breathe-face-smile.svg.png',
-    shadowUrl: 'leaf-shadow.png',
+	  L.marker([location.coords.latitude, location.coords.longitude], {icon: greenIcon}).addTo(mymap);
 
-    iconSize:     [38, 95], // size of the icon
-    shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-});
-
-
-navigator.geolocation.getCurrentPosition(function(location) {
-
-  console.log(location.coords.latitude);
-  console.log(location.coords.longitude);
-  console.log(location.coords.accuracy);
-
-
-  L.marker([location.coords.latitude, location.coords.longitude], {icon: greenIcon}).addTo(mymap);
-
-});
-
-
+	});
 }
