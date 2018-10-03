@@ -87,13 +87,16 @@ var searchbox = new L.Control.Search({
 		autoCollapse: true,
 		autoType: false,
 		minLength: 2,
+		formatData: formatJSON,
 	});
 
-console.log(searchbox);
+ 
 
 mymap.addControl(searchbox);
 
- 
+   mymap.on('search:locationfound', function (result) {
+    console.log(result);
+});
 
 function Onmouseclick(e){
 	document.getElementById('log').innerHTML = 'Latitude: '+e.latlng.lat+'<br> Longitude: '+e.latlng.lng
@@ -142,3 +145,20 @@ function detectMyLocation(){
 
 	});
 }
+
+
+	function formatJSON(rawjson) {	//callback that remap fields name
+		var json = {},
+			key, loc, disp = [];
+		for(var i in rawjson)
+		{
+			disp = rawjson[i].display_name.split(',');	
+			key = disp[0] +', '+ disp[1];
+			
+			loc = L.latLng( rawjson[i].lat, rawjson[i].lon );
+			
+			json[ key ]= loc;	//key,value format
+		}
+		console.log(rawjson[i].lat+","+rawjson[i].lon);
+		return json;
+	}
