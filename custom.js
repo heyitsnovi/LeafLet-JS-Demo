@@ -1,4 +1,4 @@
-	var mymap = L.map('mapid',{
+var mymap = L.map('mapid',{
 
 	keyboard: false,
     dragging: false,
@@ -18,6 +18,9 @@
 		id: tileLayerID,
 	}).addTo(mymap);
 
+ 
+mymap.on('mousemove', Onmousemove);
+mymap.on('click',Onmouseclick);
  
 	//array from matches array to example : manila -> tokyo , australia->new zealand and so on...
 var popup = L.popup();
@@ -87,8 +90,7 @@ for(var i=0; i<from.length;i++){
 
 
 
-mymap.on('mousemove', Onmousemove);
-mymap.on('click',Onmouseclick);
+
 
 
 
@@ -99,7 +101,7 @@ function Onmouseclick(e){
 
 function Onmousemove(e) {
 
-	//document.getElementById('log').innerHTML = 'Latitude: '+e.latlng.lat+'<br> Longitude: '+e.latlng.lng;
+	document.getElementById('log').innerHTML = 'Latitude: '+e.latlng.lat+'<br> Longitude: '+e.latlng.lng;
 }
 
 function getRandomColor() {
