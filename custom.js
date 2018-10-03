@@ -24,7 +24,7 @@ var popup = L.popup();
 
  var from = [
 	 	[
-	 		['Manila',14.732386081418454,121.02539062500001],
+	 		['Philippines',14.732386081418454,121.02539062500001],
 	 		['Australia',-26.431228,137.460938],
 	 		['Hong Kong',22.187405, 115.664063],
 	 		['Indonesia',-1.757537, 119.179688],
@@ -42,7 +42,7 @@ var to = [
 
 	 	[	
 
-		 	['Tokyo',36.24427318493909, 138.60351562500003],
+		 	['Japan',36.24427318493909, 138.60351562500003],
 		 	['New Zealand',-44.087585,173.671875],
 		 	['United Kingdom',53.120405, -1.40625],
 		 	['United States Of America',33.431441, 243.28125],
@@ -70,7 +70,9 @@ for(var i=0; i<from.length;i++){
 				    color: getRandomColor(),
 				    weight: 5,
 				    opacity: 3,
-				    smoothFactor: 0
+				    smoothFactor: 0,
+				    lineJoin: 'dotted',
+				    dashArray: '9,9'
 				}).addTo(mymap);
 
 
